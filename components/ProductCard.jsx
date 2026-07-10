@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useCartStore } from "@/store/cartStore";
 
 const categoryEmoji = {
@@ -12,18 +13,26 @@ export default function ProductCard({ product }) {
 
   return (
     <div className="group border border-gray-100 rounded-2xl p-5 bg-white shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col">
-      <div className="h-44 bg-linear-to-br from-blue-50 to-indigo-100 rounded-xl mb-4 flex flex-col items-center justify-center text-5xl gap-2">
-        <span>{categoryEmoji[product.category] ?? "📦"}</span>
-      </div>
+      {/* Image placeholder */}
+      <Link href={`/products/${product.id}`}>
+        <div className="h-44 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl mb-4 flex flex-col items-center justify-center text-5xl gap-2 hover:opacity-90 transition">
+          <span>{categoryEmoji[product.category] ?? "📦"}</span>
+        </div>
+      </Link>
 
+      {/* Category badge */}
       <span className="text-xs text-blue-500 font-medium bg-blue-50 px-2 py-0.5 rounded-full w-fit mb-1">
         {product.category}
       </span>
 
-      <h3 className="font-bold text-gray-800 text-base mb-1 leading-snug">
-        {product.name}
-      </h3>
+      {/* Name */}
+      <Link href={`/products/${product.id}`}>
+        <h3 className="font-bold text-gray-800 text-base mb-1 leading-snug hover:text-blue-600 transition">
+          {product.name}
+        </h3>
+      </Link>
 
+      {/* Rating */}
       <div className="flex items-center gap-1 text-yellow-400 text-sm mb-3">
         {"★".repeat(Math.round(product.rating))}
         {"☆".repeat(5 - Math.round(product.rating))}

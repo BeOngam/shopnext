@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 import ProductCard from "./ProductCard";
 
@@ -14,12 +15,12 @@ export default function ProductGrid({ products, categories }) {
     <section>
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Featured Products</h2>
-        <a
+        <Link
           href="/products"
           className="text-blue-600 text-sm font-medium hover:underline"
         >
           View All ←
-        </a>
+        </Link>
       </div>
 
       <div className="flex flex-wrap gap-2 mb-8">

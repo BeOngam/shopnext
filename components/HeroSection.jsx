@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-linear-to-bl from-blue-700 via-blue-600 to-indigo-800 text-white rounded-2xl mb-10 px-8 py-16 md:py-24">
@@ -17,18 +19,18 @@ export default function HeroSection() {
           From apparel to electronics — everything in one place with fast shipping and a return guarantee.
         </p>
         <div className="flex flex-wrap gap-3">
-          <a
+          <Link
             href="/products"
             className="bg-white text-blue-700 font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition"
           >
             Browse Products
-          </a>
-          <a
+          </Link>
+          <Link
             href="/cart"
             className="border border-white/40 text-white font-medium px-6 py-3 rounded-xl hover:bg-white/10 transition"
           >
             View Cart
-          </a>
+          </Link>
         </div>
       </div>
 
