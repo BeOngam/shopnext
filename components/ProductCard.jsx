@@ -1,27 +1,58 @@
 "use client";
 import { useCartStore } from "@/store/cartStore";
 
+const categoryEmoji = {
+  Apparel: "👕",
+  Footwear: "👟",
+  Electronics: "⌚",
+};
+
 export default function ProductCard({ product }) {
   const addItem = useCartStore((state) => state.addItem);
 
   return (
-    <div className="border rounded-lg p-4 shadow-sm hover:shadow-md transition">
-      <div className="h-40 bg-gray-100 rounded mb-3 flex items-center justify-center text-gray-400">
-        تصویر محصول
+    <div className="group border border-gray-100 rounded-2xl p-5 bg-white shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col">
+      {/* Image placeholder */}
+      <div className="h-44 bg-linear-to-br from-blue-50 to-indigo-100 rounded-xl mb-4 flex flex-col items-center justify-center text-5xl gap-2">
+        <span>{categoryEmoji[product.category] ?? "📦"}</span>
       </div>
-      <h3 className="font-bold text-lg">{product.name}</h3>
-      <p className="text-gray-500 text-sm mb-2">{product.category}</p>
-      <div className="flex items-center justify-between">
-        <span className="font-bold text-blue-600">
-          {product.price.toLocaleString()} تومان
-        </span>
+
+      {/* Category badge */}
+      <span className="text-xs text-blue-500 font-medium bg-blue-50 px-2 py-0.5 rounded-full w-fit mb-1">
+        {product.category}
+      </span>
+
+      {/* Name */}
+      <h3 className="font-bold text-gray-800 text-base mb-1 leading-snug">
+        {product.name}
+      </h3>
+
+      {/* Rating */}
+      <div className="flex items-center gap-1 text-yellow-400 text-sm mb-3">
+        {"★".repeat(Math.round(product.rating))}
+        {"☆".repeat(5 - Math.round(product.rating))}
+        <span className="text-gray-400 text-xs mr-1">({product.rating})</span>
+      </div>
+
+      <div className="mt-auto flex items-center justify-between">
+        <div>
+          <span className="font-extrabold text-blue-700 text-lg">
+            {product.price.toLocaleString("fa-IR")}
+          </span>
+          <span className="text-gray-400 text-xs mr-1">تومان</span>
+        </div>
         <button
           onClick={() => addItem(product)}
-          className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700"
+          className="bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-xl hover:bg-blue-700 active:scale-95 transition-all"
         >
-          افزودن به سبد
+          + افزودن
         </button>
       </div>
+
+      {/* Stock warning */}
+      {product.stock <= 3 && (
+        <p className="text-red-400 text-xs mt-2">⚠️ تنها {product.stock} عدد موجود</p>
+      )}
     </div>
   );
 }
