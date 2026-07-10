@@ -14,10 +14,10 @@ export default function Navbar() {
       </Link>
       <div className="flex gap-6 text-gray-600">
         <Link href="/" className="hover:text-blue-600">
-          خانه
+          Home
         </Link>
         <Link href="/products" className="hover:text-blue-600">
-          محصولات
+          Products
         </Link>
       </div>
       <Link href="/cart" className="relative">

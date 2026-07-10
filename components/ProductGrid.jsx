@@ -10,27 +10,18 @@ export default function ProductGrid({ products, categories }) {
       ? products
       : products.filter((p) => p.category === activeCategory);
 
-  const categoryLabels = {
-    All: "همه",
-    Apparel: "پوشاک",
-    Footwear: "کفش",
-    Electronics: "الکترونیک",
-  };
-
   return (
     <section>
-      {/* Section header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">محصولات ویژه</h2>
+        <h2 className="text-2xl font-bold text-gray-800">Featured Products</h2>
         <a
           href="/products"
           className="text-blue-600 text-sm font-medium hover:underline"
         >
-          مشاهده همه ←
+          View All ←
         </a>
       </div>
 
-      {/* Category filter */}
       <div className="flex flex-wrap gap-2 mb-8">
         {categories.map((cat) => (
           <button
@@ -42,16 +33,15 @@ export default function ProductGrid({ products, categories }) {
                 : "bg-white text-gray-600 border-gray-200 hover:border-blue-400 hover:text-blue-600"
             }`}
           >
-            {categoryLabels[cat] ?? cat}
+            {cat}
           </button>
         ))}
       </div>
 
-      {/* Product grid */}
       {filtered.length === 0 ? (
         <div className="text-center py-20 text-gray-400">
           <p className="text-4xl mb-3">📦</p>
-          <p className="text-lg">محصولی در این دسته‌بندی یافت نشد.</p>
+          <p className="text-lg">No products found in this category.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -61,13 +51,12 @@ export default function ProductGrid({ products, categories }) {
         </div>
       )}
 
-      {/* Trust badges */}
       <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm text-gray-500">
         {[
-          { icon: "🚚", label: "ارسال رایگان", sub: "برای خریدهای بالای ۵۰۰ هزار" },
-          { icon: "🔄", label: "بازگشت آسان", sub: "تا ۷ روز پس از خرید" },
-          { icon: "🔒", label: "پرداخت امن", sub: "درگاه معتبر بانکی" },
-          { icon: "🎧", label: "پشتیبانی ۲۴/۷", sub: "همیشه در دسترس هستیم" },
+          { icon: "🚚", label: "Free Shipping", sub: "On orders over $50" },
+          { icon: "🔄", label: "Easy Returns", sub: "Within 7 days of purchase" },
+          { icon: "🔒", label: "Secure Payment", sub: "Trusted payment gateway" },
+          { icon: "🎧", label: "24/7 Support", sub: "Always available" },
         ].map(({ icon, label, sub }) => (
           <div
             key={label}

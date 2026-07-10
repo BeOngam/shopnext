@@ -28,4 +28,3 @@ export const useCartStore = create((set) => ({
 
   clearCart: () => set({ items: [] }),
 }));
-//for shopping cart management using zustand state management library
