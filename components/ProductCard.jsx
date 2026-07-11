@@ -12,51 +12,50 @@ export default function ProductCard({ product }) {
   const addItem = useCartStore((state) => state.addItem);
 
   return (
-    <div className="group border border-gray-100 rounded-2xl p-5 bg-white shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col">
-      {/* Image placeholder */}
-      <Link href={`/products/${product.id}`}>
-        <div className="h-44 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl mb-4 flex flex-col items-center justify-center text-5xl gap-2 hover:opacity-90 transition">
-          <span>{categoryEmoji[product.category] ?? "📦"}</span>
+    <div className="group flex flex-col bg-white">
+      {/* Image area */}
+      <Link href={`/products/${product.id}`} className="block relative overflow-hidden bg-[#f5f5f5]" style={{aspectRatio:"1/1"}}>
+        <div className="absolute inset-0 flex items-center justify-center text-7xl transition-transform duration-300 group-hover:scale-105">
+          {categoryEmoji[product.category] ?? "📦"}
         </div>
-      </Link>
-
-      {/* Category badge */}
-      <span className="text-xs text-blue-500 font-medium bg-blue-50 px-2 py-0.5 rounded-full w-fit mb-1">
-        {product.category}
-      </span>
-
-      {/* Name */}
-      <Link href={`/products/${product.id}`}>
-        <h3 className="font-bold text-gray-800 text-base mb-1 leading-snug hover:text-blue-600 transition">
-          {product.name}
-        </h3>
-      </Link>
-
-      {/* Rating */}
-      <div className="flex items-center gap-1 text-yellow-400 text-sm mb-3">
-        {"★".repeat(Math.round(product.rating))}
-        {"☆".repeat(5 - Math.round(product.rating))}
-        <span className="text-gray-400 text-xs mr-1">({product.rating})</span>
-      </div>
-
-      <div className="mt-auto flex items-center justify-between">
-        <div>
-          <span className="font-extrabold text-blue-700 text-lg">
-            {product.price.toLocaleString("en-US")}
+        {product.stock <= 3 && (
+          <span className="absolute top-3 right-3 bg-red-600 text-white text-[10px] font-bold uppercase px-2 py-1 tracking-wide">
+            Only a few left
           </span>
-          <span className="text-gray-400 text-xs mr-1">USD</span>
-        </div>
-        <button
-          onClick={() => addItem(product)}
-          className="bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-xl hover:bg-blue-700 active:scale-95 transition-all"
-        >
-          + Add to Cart
-        </button>
-      </div>
+        )}
+      </Link>
 
-      {product.stock <= 3 && (
-        <p className="text-red-400 text-xs mt-2">⚠️ Only {product.stock} left in stock</p>
-      )}
+      {/* Info */}
+      <div className="pt-3 pb-4 flex flex-col gap-1">
+        <Link href={`/products/${product.id}`}>
+          <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400">
+            {product.category}
+          </p>
+          <h3 className="font-bold text-base leading-tight hover:underline underline-offset-2">
+            {product.name}
+          </h3>
+        </Link>
+
+        {/* Rating */}
+        <div className="flex items-center gap-1 text-xs text-gray-500">
+          <span className="text-black">{"★".repeat(Math.round(product.rating))}</span>
+          <span>{"☆".repeat(5 - Math.round(product.rating))}</span>
+          <span className="mr-1">({product.rating})</span>
+        </div>
+
+        {/* Price + CTA */}
+        <div className="flex items-center justify-between mt-2">
+          <span className="font-bold text-base">
+            {product.price.toLocaleString("fa-IR")} Toman
+          </span>
+          <button
+            onClick={() => addItem(product)}
+            className="text-[11px] font-black uppercase tracking-wide border-b-2 border-black pb-0.5 hover:opacity-60 transition"
+          >
+            + Add
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

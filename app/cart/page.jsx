@@ -18,13 +18,13 @@ export default function CartPage() {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center text-center gap-4">
         <span className="text-7xl">🛒</span>
-        <h2 className="text-2xl font-bold text-gray-800">Your Cart Is Empty</h2>
-        <p className="text-gray-500">You haven&apos;t added anything to your cart yet.</p>
+        <h2 className="text-2xl font-bold text-gray-800">Your cart is empty</h2>
+        <p className="text-gray-500">You haven’t added anything to your cart yet!</p>
         <Link
           href="/"
           className="mt-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-700 transition"
         >
-          Back to Shop
+          Back to shop
         </Link>
       </div>
     );
@@ -32,16 +32,17 @@ export default function CartPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
+      {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Shopping Cart</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Cart</h1>
           <p className="text-gray-400 text-sm mt-1">{totalCount} items</p>
         </div>
         <button
           onClick={clearCart}
           className="text-red-400 text-sm hover:text-red-600 transition flex items-center gap-1"
         >
-          🗑️ Clear Cart
+          🗑️ Clear cart
         </button>
       </div>
 
@@ -90,18 +91,18 @@ export default function CartPage() {
               {/* Price + remove */}
               <div className="flex flex-col items-end gap-3 flex-shrink-0">
                 <span className="font-extrabold text-blue-700 text-base">
-                  {(item.price * item.quantity).toLocaleString("en-US")}
-                  <span className="text-gray-400 text-xs font-normal mr-1">USD</span>
+                  {(item.price * item.quantity).toLocaleString("fa-IR")}
+                  <span className="text-gray-400 text-xs font-normal mr-1">Toman</span>
                 </span>
                 {item.quantity > 1 && (
                   <span className="text-gray-300 text-xs">
-                    each {item.price.toLocaleString("en-US")} USD
+                    Each {item.price.toLocaleString("fa-IR")}
                   </span>
                 )}
                 <button
                   onClick={() => removeItem(item.id)}
                   className="text-gray-300 hover:text-red-400 transition text-lg"
-                  aria-label="Remove item"
+                  aria-label="حذف"
                 >
                   ✕
                 </button>
@@ -113,29 +114,33 @@ export default function CartPage() {
             href="/"
             className="text-blue-600 text-sm hover:underline flex items-center gap-1 mt-2"
           >
-            ← Continue Shopping
+            ← Continue shopping
           </Link>
         </div>
 
         {/* Summary box */}
         <div className="lg:w-80">
           <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm sticky top-6">
-            <h2 className="text-lg font-bold text-gray-800 mb-5">Order Summary</h2>
+            <h2 className="text-lg font-bold text-gray-800 mb-5">Order summary</h2>
 
             <div className="flex flex-col gap-3 text-sm mb-5">
               <div className="flex justify-between text-gray-500">
-                <span>Item price ({totalCount} items)</span>
-                <span>{total.toLocaleString("en-US")} USD</span>
+                <span>Subtotal ({totalCount} items)</span>
+                <span>{total.toLocaleString("fa-IR")} Toman</span>
               </div>
               <div className="flex justify-between text-gray-500">
-                <span>Shipping fee</span>
+                <span>Shipping</span>
                 <span className={total >= 500000 ? "text-green-500 font-medium" : ""}>
-                  {total >= 500000 ? "Free 🎉" : "$30.00"}
+                  {total >= 500000 ? "Free 🎉" : "30,000 Toman"}
                 </span>
               </div>
               {total < 500000 && (
                 <p className="text-xs text-blue-400 bg-blue-50 rounded-lg px-3 py-2">
-                  Spend another <strong>{(500000 - total).toLocaleString("en-US")} USD</strong> for free shipping
+                  For free shipping, add{" "}
+                  <strong>
+                    {(500000 - total).toLocaleString("fa-IR")} Toman
+                  </strong>{" "}
+                  more
                 </p>
               )}
             </div>
@@ -143,7 +148,7 @@ export default function CartPage() {
             <div className="border-t border-gray-100 pt-4 mb-5 flex justify-between font-bold text-gray-800">
               <span>Total</span>
               <span className="text-blue-700 text-lg">
-                {(total >= 500000 ? total : total + 30000).toLocaleString("en-US")} USD
+                {(total >= 500000 ? total : total + 30000).toLocaleString("fa-IR")} Toman
               </span>
             </div>
 
@@ -153,7 +158,7 @@ export default function CartPage() {
 
             <div className="mt-4 flex items-center justify-center gap-2 text-xs text-gray-400">
               <span>🔒</span>
-              <span>Secure payment with trusted gateway</span>
+              <span>Secure payment with a trusted gateway</span>
             </div>
           </div>
         </div>

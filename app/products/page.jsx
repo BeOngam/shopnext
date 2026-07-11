@@ -12,9 +12,9 @@ const categoryLabels = {
 
 const sortOptions = [
   { value: "default", label: "Default" },
-  { value: "price-asc", label: "Price: Low to High" },
-  { value: "price-desc", label: "Price: High to Low" },
-  { value: "rating", label: "Top Rated" },
+  { value: "price-asc", label: "Cheapest" },
+  { value: "price-desc", label: "Most expensive" },
+  { value: "rating", label: "Best rated" },
 ];
 
 export default function ProductsPage() {
@@ -44,6 +44,7 @@ export default function ProductsPage() {
 
   return (
     <div>
+      {/* Page header */}
       <div className="mb-8">
         <h1 className="text-3xl font-extrabold text-gray-800 mb-1">All Products</h1>
         <p className="text-gray-400 text-sm">{filtered.length} products found</p>
@@ -101,7 +102,7 @@ export default function ProductsPage() {
         <div className="text-center py-24 text-gray-400">
           <p className="text-5xl mb-4">🔍</p>
           <p className="text-lg font-medium text-gray-500">No products found</p>
-          <p className="text-sm mt-1">Try another search term or change your filters</p>
+          <p className="text-sm mt-1">Try another search term or change the filter</p>
           <button
             onClick={() => { setSearch(""); setActiveCategory("All"); }}
             className="mt-4 text-blue-600 text-sm hover:underline"
