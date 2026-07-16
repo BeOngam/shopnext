@@ -1,6 +1,9 @@
-"use client";
+﻿"use client";
+import { useState } from "react";
+import Image from "next/image";
 import { useCartStore } from "@/store/cartStore";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const categoryEmoji = {
   Apparel: "👕",
@@ -10,9 +13,34 @@ const categoryEmoji = {
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, clearCart } = useCartStore();
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    city: "",
+    address: "",
+    notes: "",
+  });
 
+  const router = useRouter();
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const shipping = total >= 500000 ? 0 : 30000;
+  const grandTotal = total + shipping;
+
+  const canSubmit =
+    form.firstName.trim() &&
+    form.lastName.trim() &&
+    form.city.trim() &&
+    form.address.trim();
+
+  const handleChange = (field) => (event) => {
+    setForm((prev) => ({ ...prev, [field]: event.target.value }));
+  };
+
+  const handleCheckout = () => {
+    if (!canSubmit) return;
+    router.push("/checkout");
+  };
 
   if (items.length === 0) {
     return (
@@ -31,134 +59,196 @@ export default function CartPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+    <div className="max-w-5xl mx-auto px-4 py-10">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between mb-10">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Cart</h1>
-          <p className="text-gray-400 text-sm mt-1">{totalCount} items</p>
+          <h1 className="text-3xl font-bold text-gray-900">Shopping Cart</h1>
+          <p className="text-gray-500 mt-2">{totalCount} items selected</p>
         </div>
         <button
           onClick={clearCart}
-          className="text-red-400 text-sm hover:text-red-600 transition flex items-center gap-1"
+          className="self-start rounded-2xl border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-100"
         >
-          🗑️ Clear cart
+          Clear cart
         </button>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Items list */}
-        <div className="flex-1 flex flex-col gap-4">
+      <div className="grid gap-8 lg:grid-cols-[1.6fr_1fr]">
+        <div className="flex flex-col gap-4">
           {items.map((item) => (
             <div
               key={item.id}
-              className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm flex gap-4 items-center"
+              className="bg-white border border-gray-100 rounded-3xl p-4 shadow-sm flex flex-col gap-4 sm:flex-row"
             >
-              {/* Image */}
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl flex items-center justify-center text-4xl flex-shrink-0">
-                {categoryEmoji[item.category] ?? "📦"}
-              </div>
-
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-gray-800 text-base">{item.name}</h3>
-                <p className="text-sm text-gray-400 mb-3">{item.category}</p>
-
-                {/* Quantity control */}
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() =>
-                      item.quantity === 1
-                        ? removeItem(item.id)
-                        : updateQuantity(item.id, item.quantity - 1)
-                    }
-                    className="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:border-blue-400 hover:text-blue-600 transition font-bold"
-                  >
-                    −
-                  </button>
-                  <span className="w-6 text-center font-bold text-gray-800">
-                    {item.quantity}
-                  </span>
-                  <button
-                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                    className="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:border-blue-400 hover:text-blue-600 transition font-bold"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {/* Price + remove */}
-              <div className="flex flex-col items-end gap-3 flex-shrink-0">
-                <span className="font-extrabold text-blue-700 text-base">
-                  {(item.price * item.quantity).toLocaleString("en-US")}
-                  <span className="text-gray-400 text-xs font-normal mr-1">Toman</span>
-                </span>
-                {item.quantity > 1 && (
-                  <span className="text-gray-300 text-xs">
-                    Each {item.price.toLocaleString("en-US")}
-                  </span>
+              <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-3xl bg-slate-100">
+                {item.imageUrl ? (
+                  <Image
+                    src={item.imageUrl}
+                    alt={item.name}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center text-3xl">
+                    {categoryEmoji[item.category] ?? "📦"}
+                  </div>
                 )}
-                <button
-                  onClick={() => removeItem(item.id)}
-                  className="text-gray-300 hover:text-red-400 transition text-lg"
-                  aria-label="حذف"
-                >
-                  ✕
-                </button>
+              </div>
+
+              <div className="flex flex-1 flex-col justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 truncate">{item.name}</h3>
+                      <p className="text-sm text-gray-500 mt-1">{item.category}</p>
+                    </div>
+                    <button
+                      onClick={() => removeItem(item.id)}
+                      className="text-gray-300 hover:text-red-500 transition text-xl"
+                      aria-label="Remove item"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  <p className="mt-3 text-sm leading-6 text-gray-600">
+                    {item.description || "Product details will appear here."}
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 p-2">
+                    <button
+                      onClick={() =>
+                        item.quantity === 1
+                          ? removeItem(item.id)
+                          : updateQuantity(item.id, item.quantity - 1)
+                      }
+                      className="flex h-9 w-9 items-center justify-center rounded-2xl bg-white text-lg text-gray-600 transition hover:border-blue-300 hover:text-blue-600"
+                    >
+                      −
+                    </button>
+                    <span className="min-w-8 text-center font-semibold text-gray-900">
+                      {item.quantity}
+                    </span>
+                    <button
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      className="flex h-9 w-9 items-center justify-center rounded-2xl bg-white text-lg text-gray-600 transition hover:border-blue-300 hover:text-blue-600"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <div className="text-right">
+                    <p className="text-sm text-gray-500">Total price</p>
+                    <p className="text-base font-bold text-gray-900">
+                      {(item.price * item.quantity).toLocaleString("en-US")} Toman
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
 
           <Link
             href="/"
-            className="text-blue-600 text-sm hover:underline flex items-center gap-1 mt-2"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:underline"
           >
-            ← Continue shopping
+            ← Back to shop
           </Link>
         </div>
 
-        {/* Summary box */}
-        <div className="lg:w-80">
-          <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm sticky top-6">
-            <h2 className="text-lg font-bold text-gray-800 mb-5">Order summary</h2>
-
-            <div className="flex flex-col gap-3 text-sm mb-5">
-              <div className="flex justify-between text-gray-500">
-                <span>Subtotal ({totalCount} items)</span>
+        <div className="space-y-6">
+          <div className="rounded-4xl border border-gray-100 bg-white p-6 shadow-sm">
+            <h2 className="text-lg font-bold text-gray-900 mb-4">Order summary</h2>
+            <div className="space-y-3 text-sm text-gray-600">
+              <div className="flex justify-between">
+                <span>Subtotal</span>
                 <span>{total.toLocaleString("en-US")} Toman</span>
               </div>
-              <div className="flex justify-between text-gray-500">
+              <div className="flex justify-between">
                 <span>Shipping</span>
-                <span className={total >= 500000 ? "text-green-500 font-medium" : ""}>
-                  {total >= 500000 ? "Free 🎉" : "30,000 Toman"}
+                <span className={shipping === 0 ? "text-green-600 font-semibold" : "text-gray-600"}>
+                  {shipping === 0 ? "Free" : `${shipping.toLocaleString("en-US")} Toman`}
                 </span>
               </div>
-              {total < 500000 && (
-                <p className="text-xs text-blue-400 bg-blue-50 rounded-lg px-3 py-2">
-                  For free shipping, add{" "}
-                  <strong>
-                    {(500000 - total).toLocaleString("en-US")} Toman
-                  </strong>{" "}
-                  more
-                </p>
-              )}
+              <div className="border-t border-gray-200 pt-3 flex justify-between text-base font-bold text-gray-900">
+                <span>Total</span>
+                <span>{grandTotal.toLocaleString("en-US")} Toman</span>
+              </div>
             </div>
+          </div>
 
-            <div className="border-t border-gray-100 pt-4 mb-5 flex justify-between font-bold text-gray-800">
-              <span>Total</span>
-              <span className="text-blue-700 text-lg">
-                {(total >= 500000 ? total : total + 30000).toLocaleString("en-US")} Toman
-              </span>
-            </div>
+          <div className="rounded-4xl border border-gray-100 bg-white p-6 shadow-sm">
+            <h2 className="text-lg font-bold text-gray-900 mb-4">Shipping information</h2>
+            <div className="space-y-4 text-sm text-gray-700">
+              <label className="block">
+                <span className="text-gray-600">First name</span>
+                <input
+                  type="text"
+                  value={form.firstName}
+                  onChange={handleChange("firstName")}
+                  className="mt-2 w-full rounded-3xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-blue-500"
+                  placeholder="e.g. Ali"
+                />
+              </label>
 
-            <button className="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 active:scale-95 transition-all text-base">
-              Checkout
-            </button>
+              <label className="block">
+                <span className="text-gray-600">Last name</span>
+                <input
+                  type="text"
+                  value={form.lastName}
+                  onChange={handleChange("lastName")}
+                  className="mt-2 w-full rounded-3xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-blue-500"
+                  placeholder="e.g. Rezaei"
+                />
+              </label>
 
-            <div className="mt-4 flex items-center justify-center gap-2 text-xs text-gray-400">
-              <span>🔒</span>
-              <span>Secure payment with a trusted gateway</span>
+              <label className="block">
+                <span className="text-gray-600">City</span>
+                <input
+                  type="text"
+                  value={form.city}
+                  onChange={handleChange("city")}
+                  className="mt-2 w-full rounded-3xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-blue-500"
+                  placeholder="e.g. Tehran"
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-gray-600">Full address</span>
+                <input
+                  type="text"
+                  value={form.address}
+                  onChange={handleChange("address")}
+                  className="mt-2 w-full rounded-3xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-blue-500"
+                  placeholder="Street, building, unit"
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-gray-600">Additional notes</span>
+                <textarea
+                  value={form.notes}
+                  onChange={handleChange("notes")}
+                  rows={4}
+                  className="mt-2 w-full resize-none rounded-3xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-blue-500"
+                  placeholder="e.g. call before arrival"
+                />
+              </label>
+
+              <button
+                type="button"
+                onClick={handleCheckout}
+                disabled={!canSubmit}
+                className={`w-full rounded-3xl px-5 py-3 text-sm font-bold transition ${
+                  canSubmit
+                    ? "bg-blue-600 text-white hover:bg-blue-700"
+                    : "bg-gray-200 text-gray-500 cursor-not-allowed"
+                }`}
+              >
+                Proceed to checkout
+              </button>
             </div>
           </div>
         </div>

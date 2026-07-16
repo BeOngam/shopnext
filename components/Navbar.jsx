@@ -15,6 +15,7 @@ export default function Navbar() {
     { href: "/products?cat=Footwear", label: "Footwear" },
     { href: "/products?cat=Electronics", label: "Electronics" },
     { href: "/products", label: "All Products" },
+    { href: "/upload", label: "Upload" },
   ];
 
   return (

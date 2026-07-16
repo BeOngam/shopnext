@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { useCartStore } from "@/store/cartStore";
@@ -36,8 +37,20 @@ export default function ProductDetail({ product, related }) {
       <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="flex flex-col lg:flex-row gap-12 mb-20">
           <div className="lg:w-1/2">
-            <div className="bg-[#f5f5f5] flex items-center justify-center" style={{ aspectRatio: "1/1", fontSize: "140px" }}>
-              {categoryEmoji[product.category] ?? "📦"}
+            <div className="bg-[#f5f5f5] flex items-center justify-center overflow-hidden rounded-[32px]" style={{ aspectRatio: "1/1" }}>
+              {product.imageUrl ? (
+                <Image
+                  src={product.imageUrl}
+                  alt={product.name}
+                  width={900}
+                  height={900}
+                  className="object-cover w-full h-full"
+                />
+              ) : (
+                <div className="flex items-center justify-center text-[140px]">
+                  {categoryEmoji[product.category] ?? "📦"}
+                </div>
+              )}
             </div>
           </div>
 
@@ -112,10 +125,13 @@ export default function ProductDetail({ product, related }) {
               View cart
             </Link>
 
-            <div className="flex gap-6 mt-8 pt-6 border-t border-gray-200 text-xs font-bold uppercase tracking-wide text-gray-500">
-              <span>🚚 Fast shipping</span>
-              <span>🔒 Secure payment</span>
-              <span>🔄 7-day return</span>
+            <div className="mt-10 rounded-3xl border border-gray-200 bg-gray-50 p-6 text-sm text-gray-600">
+              <h2 className="text-sm font-black uppercase tracking-widest text-gray-500 mb-3">
+                Product details
+              </h2>
+              <div className="min-h-[120px] text-sm leading-7">
+                {product.description}
+              </div>
             </div>
           </div>
         </div>

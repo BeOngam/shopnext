@@ -1,5 +1,6 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { products, categories } from "@/lib/data";
 import ProductCard from "@/components/ProductCard";
 
@@ -18,8 +19,13 @@ const sortOptions = [
 ];
 
 export default function ProductsPage() {
+  const searchParams = useSearchParams();
+  const categoryQuery = searchParams.get("cat") || "All";
+
   const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState(
+    categories.includes(categoryQuery) ? categoryQuery : "All"
+  );
   const [sort, setSort] = useState("default");
 
   const filtered = useMemo(() => {

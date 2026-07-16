@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { useCartStore } from "@/store/cartStore";
 
@@ -12,21 +13,34 @@ export default function ProductCard({ product }) {
   const addItem = useCartStore((state) => state.addItem);
 
   return (
-    <div className="group flex flex-col bg-white">
+    <div className="group flex flex-col overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-sm transition hover:shadow-md">
       {/* Image area */}
-      <Link href={`/products/${product.id}`} className="block relative overflow-hidden bg-[#f5f5f5]" style={{aspectRatio:"1/1"}}>
-        <div className="absolute inset-0 flex items-center justify-center text-7xl transition-transform duration-300 group-hover:scale-105">
-          {categoryEmoji[product.category] ?? "📦"}
+      <Link href={`/products/${product.id}`} className="block overflow-hidden rounded-t-[28px] bg-[#f5f5f5]">
+        <div className="relative h-56 overflow-hidden bg-[#f5f5f5]">
+          {product.imageUrl ? (
+            <Image
+              src={product.imageUrl}
+              alt={product.name}
+              width={800}
+              height={800}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center text-6xl transition-transform duration-300 group-hover:scale-105">
+              {categoryEmoji[product.category] ?? "📦"}
+            </div>
+          )}
         </div>
+
         {product.stock <= 3 && (
-          <span className="absolute top-3 right-3 bg-red-600 text-white text-[10px] font-bold uppercase px-2 py-1 tracking-wide">
+          <span className="absolute right-4 top-4 z-10 rounded-full bg-red-600 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
             Only a few left
           </span>
         )}
       </Link>
 
       {/* Info */}
-      <div className="pt-3 pb-4 flex flex-col gap-1">
+      <div className="flex flex-1 flex-col gap-3 p-5">
         <Link href={`/products/${product.id}`}>
           <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400">
             {product.category}

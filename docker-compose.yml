@@ -1,0 +1,36 @@
+﻿version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: shopnext_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://postgres:123456@postgres:5432/shopnext?schema=public
+      CLOUDINARY_CLOUD_NAME: Root
+      CLOUDINARY_API_KEY: 666196678599362
+      CLOUDINARY_API_SECRET: myiGhjJKv9mnFcDjIPTZh_J9Un8
+    volumes:
+      - .:/app:delegated
+
+  postgres:
+    image: postgres:16
+    container_name: shopnext_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: shopnext
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
