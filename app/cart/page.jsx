@@ -91,12 +91,12 @@ export default function CartPage() {
               {/* Price + remove */}
               <div className="flex flex-col items-end gap-3 flex-shrink-0">
                 <span className="font-extrabold text-blue-700 text-base">
-                  {(item.price * item.quantity).toLocaleString("fa-IR")}
+                  {(item.price * item.quantity).toLocaleString("en-US")}
                   <span className="text-gray-400 text-xs font-normal mr-1">Toman</span>
                 </span>
                 {item.quantity > 1 && (
                   <span className="text-gray-300 text-xs">
-                    Each {item.price.toLocaleString("fa-IR")}
+                    Each {item.price.toLocaleString("en-US")}
                   </span>
                 )}
                 <button
@@ -126,7 +126,7 @@ export default function CartPage() {
             <div className="flex flex-col gap-3 text-sm mb-5">
               <div className="flex justify-between text-gray-500">
                 <span>Subtotal ({totalCount} items)</span>
-                <span>{total.toLocaleString("fa-IR")} Toman</span>
+                <span>{total.toLocaleString("en-US")} Toman</span>
               </div>
               <div className="flex justify-between text-gray-500">
                 <span>Shipping</span>
@@ -138,7 +138,7 @@ export default function CartPage() {
                 <p className="text-xs text-blue-400 bg-blue-50 rounded-lg px-3 py-2">
                   For free shipping, add{" "}
                   <strong>
-                    {(500000 - total).toLocaleString("fa-IR")} Toman
+                    {(500000 - total).toLocaleString("en-US")} Toman
                   </strong>{" "}
                   more
                 </p>
@@ -148,7 +148,7 @@ export default function CartPage() {
             <div className="border-t border-gray-100 pt-4 mb-5 flex justify-between font-bold text-gray-800">
               <span>Total</span>
               <span className="text-blue-700 text-lg">
-                {(total >= 500000 ? total : total + 30000).toLocaleString("fa-IR")} Toman
+                {(total >= 500000 ? total : total + 30000).toLocaleString("en-US")} Toman
               </span>
             </div>
 

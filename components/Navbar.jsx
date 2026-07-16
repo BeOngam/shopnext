@@ -21,14 +21,14 @@ export default function Navbar() {
     <header className="border-b border-black">
       {/* Top promo bar */}
       <div className="bg-black text-white text-center text-xs py-2 font-bold tracking-widest uppercase">
-        Free shipping for orders over 500,000 Toman
+        Free shipping and easy purchasing!
       </div>
 
       {/* Main navbar */}
       <nav className="bg-white px-6 py-4 flex items-center justify-between max-w-screen-xl mx-auto">
         {/* Logo */}
         <Link href="/" className="text-2xl font-black tracking-tight uppercase">
-          ShopNext
+          Pushina
         </Link>
 
         {/* Desktop nav */}

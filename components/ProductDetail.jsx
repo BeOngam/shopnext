@@ -59,7 +59,7 @@ export default function ProductDetail({ product, related }) {
 
             <div className="mb-6">
               <p className="text-3xl font-black">
-                {product.price.toLocaleString("fa-IR")}
+                {product.price.toLocaleString("en-US")}
                 <span className="text-base font-bold text-gray-500 mr-2">Toman</span>
               </p>
               {product.stock <= 3 && (

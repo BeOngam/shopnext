@@ -46,7 +46,7 @@ export default function ProductCard({ product }) {
         {/* Price + CTA */}
         <div className="flex items-center justify-between mt-2">
           <span className="font-bold text-base">
-            {product.price.toLocaleString("fa-IR")} Toman
+            {product.price.toLocaleString("en-US")} Toman
           </span>
           <button
             onClick={() => addItem(product)}
