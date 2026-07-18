@@ -1,7 +1,17 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+export const runtime = "nodejs";
+
+const globalForPrisma = globalThis;
+
+function getPrisma() {
+  if (!globalForPrisma.__prisma) {
+    globalForPrisma.__prisma = new PrismaClient();
+  }
+
+  return globalForPrisma.__prisma;
+}
 
 export async function POST(request) {
   try {
@@ -12,6 +22,7 @@ export async function POST(request) {
       return NextResponse.json({ error: "Invalid order data" }, { status: 400 });
     }
 
+    const prisma = getPrisma();
     const order = await prisma.order.create({
       data: {
         total,
