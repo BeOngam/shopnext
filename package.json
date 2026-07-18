@@ -8,11 +8,11 @@
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint"
-  
   },
   "dependencies": {
     "@prisma/client": "^7.8.0",
     "cloudinary": "^2.10.0",
+    "dotenv": "^17.4.2",
     "next": "16.2.6",
     "next-auth": "^4.24.14",
     "prisma": "^7.8.0",
