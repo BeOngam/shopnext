@@ -1,40 +1,94 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ShopNext
 
-## Getting Started
+یک فروشگاه آنلاین ساده ساخته‌شده با Next.js، Prisma و Cloudinary.
 
-First, run the development server:
+## امکانات
+
+- صفحه‌ی اصلی با بخش معرفی محصول
+- صفحه‌ی محصولات با جستجو و فیلتر دسته‌بندی
+- سبد خرید با Zustand
+- صفحه‌ی ثبت سفارش
+- آپلود تصویر با Cloudinary
+- API سفارش‌گذاری با Prisma
+
+## تکنولوژی‌های استفاده‌شده
+
+- Next.js 16
+- React 19
+- Prisma
+- Tailwind CSS
+- Zustand
+- Cloudinary
+
+## راه‌اندازی محلی
+
+1. وابستگی‌ها را نصب کنید:
+
+```bash
+npm install
+```
+
+2. متغیرهای محیطی لازم را تنظیم کنید:
+
+```bash
+cp .env.example .env
+```
+
+3. دیتابیس Prisma را آماده کنید:
+
+```bash
+npx prisma generate
+npx prisma migrate deploy
+```
+
+4. سرور توسعه را اجرا کنید:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+سپس در مرورگر به آدرس زیر بروید:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## متغیرهای محیطی
 
-## Learn More
+این پروژه به متغیرهای زیر نیاز دارد:
 
-To learn more about Next.js, take a look at the following resources:
+```env
+DATABASE_URL="postgresql://user:password@host:5432/dbname?schema=public"
+CLOUDINARY_CLOUD_NAME="your_cloud_name"
+CLOUDINARY_API_KEY="your_api_key"
+CLOUDINARY_API_SECRET="your_api_secret"
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## دیپلوی روی Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. پروژه را روی GitHub push کنید.
+2. در Vercel روی «Add New Project» بزنید.
+3. ریپو را انتخاب کنید.
+4. در بخش Environment Variables این مقادیر را اضافه کنید:
+   - DATABASE_URL
+   - CLOUDINARY_CLOUD_NAME
+   - CLOUDINARY_API_KEY
+   - CLOUDINARY_API_SECRET
+5. Build Command را روی این تنظیم کنید:
 
-## Deploy on Vercel
+```bash
+npm run build
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+6. Deploy را انجام دهید.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-=======
-# shopnext
->>>>>>> 141cdff740ac6ff3c284203af79dce5a1710e3da
+> برای کارکرد درست Prisma در Vercel، بهتر است دیتابیس PostgreSQL آماده داشته باشید و متغیر DATABASE_URL را در محیط Vercel تنظیم کنید.
+
+## اسکریپت‌های مفید
+
+```bash
+npm run dev
+npm run build
+npm run start
+npm run lint
+```
