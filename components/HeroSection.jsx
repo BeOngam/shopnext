@@ -92,3 +92,4 @@ export default function HeroSection() {
     </section>
   );
 }
+//finally done with the hero section, now we can move on to the next component.
